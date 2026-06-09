@@ -1075,11 +1075,13 @@
             }
 
             const probability = (variantBeatsControl / samples) * 100;
+            // A Monte-Carlo estimate should never read a flat 100% (overconfident) — clamp the display
+            const displayProb = Math.min(99.9, Math.max(0.1, probability));
 
             // Create gauge using Plotly
             const gaugeTrace = {
                 domain: { x: [0, 1], y: [0, 1] },
-                value: probability,
+                value: displayProb,
                 title: { text: 'Probability' },
                 type: 'indicator',
                 mode: 'gauge+number',
